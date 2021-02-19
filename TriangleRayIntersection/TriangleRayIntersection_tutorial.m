@@ -102,7 +102,7 @@ fprintf('Number of: faces=%i, points=%i, intresections=%i; time=%f sec\n', ...
 %%
 % *Display the results: Surface in blue, line in light read and intersected
 % triangles in dark red*
-figure(1); clf;
+figure; %clf;
 trisurf(faces,x,y,z, intersect*1.0,'FaceAlpha', 0.9)
 hold on;
 line('XData',orig(1)+[0 dir(1)],'YData',orig(2)+[0 dir(2)],'ZData',...
@@ -132,7 +132,7 @@ n=50;
 [x,y,z] = sphere(n);
 DT = delaunayTriangulation(x(:), y(:), z(:));
 [faces, vertices] = freeBoundary(DT);
-figure(1); clf;
+figure; %clf;
 trisurf(faces, vertices(:,1),vertices(:,2),vertices(:,3),'FaceAlpha', 0.5)
 axis equal
 orig  = [0 0 0];          % ray's origin
@@ -188,7 +188,7 @@ fprintf('Number of: faces=%i, intresections=%i\n', size(faces,1), sum(intersect)
 fprintf('mean t=%f+-%f\n', mean(t), std(t));
 fprintf('mean u=%f+-%f\n', mean(u), std(u));
 fprintf('mean v=%f+-%f\n', mean(v), std(v));
-figure(1); clf;
+figure; %clf;
 plot3(xcoor(:,1), xcoor(:,2), xcoor(:,3), 'o')
 
 %% Using option.border to customize border handling
@@ -197,7 +197,7 @@ plot3(xcoor(:,1), xcoor(:,2), xcoor(:,3), 'o')
 [x,y] = pol2cart((0:2)'*2*pi/3,1);
 vertices = [0 0 1; x y [0; 0; 0]];
 faces    = [1 2 3; 1 3 4; 1 4 2; 2 3 4];
-figure(1); clf;
+figure; %clf;
 trisurf(faces, vertices(:,1),vertices(:,2),vertices(:,3),'FaceAlpha', 0.5);
 view([3 1 1])
 axis equal
@@ -233,7 +233,7 @@ fprintf('Number of intersections with border: normal=%i, inclusive=%i, exclusive
 
 %% Test the intersection point location
 % using the same figure
-figure(1); clf;
+figure; %clf;
 trisurf(faces, vertices(:,1),vertices(:,2),vertices(:,3),'FaceAlpha', 0.5);
 view([3 1 1])
 axis equal
