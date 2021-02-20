@@ -4,17 +4,22 @@ addpath TriangleRayIntersection;
 MeshSize = 20;
 AngleOfSweep = 1;
 
-%Where is the Drone and Laser
-Drone = TRDrone(10.1,10.1,10,0,0,0);
-Laser = Drone * RY(180);
-
+Angles = linspace(0,360-AngleOfSweep,360/AngleOfSweep);
 [Vertices, Faces, xyz] = GetTheEnvironment(MeshSize);
 
+%Where is the Drone and Laser
+Drone = TRDrone(10.1,10.1,10,0,0,0);
 % FindTheHit(Vertices, Faces, Laser) %, xyz, false)
 Distances = LidarSweep(Vertices, Faces, Drone, AngleOfSweep);
-
-Angles = linspace(0,360-AngleOfSweep,360/AngleOfSweep);
 plot(Angles,Distances);
+
+Drone = TRDrone(11,10.1,10,0,0,0);
+Distances1 = LidarSweep(Vertices, Faces, Drone, AngleOfSweep);
+figure;
+plot(Angles,Distances1);
+
+figure;
+plot(Angles,Distances,Angles,Distances1);
 
 function Drone = TRDrone(x,y,z,yaw,pitch,roll)
     R = RZ(yaw) * RY(pitch) * RX(roll);

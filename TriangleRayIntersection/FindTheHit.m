@@ -100,7 +100,7 @@ function Hits = FindTheHit(vertices, faces, laser)%, xyz, graph)
     if numberHits > 0
         baryCenterCoord = zeros(numberHits,2);
         xyzOfHits = zeros(numberHits,3);
-        distToHits = Inf(numberHits);
+        distToHits = Inf(numberHits,1);
         hit = 1;
         for i=1:size(intersect)
             if intersect(i)
