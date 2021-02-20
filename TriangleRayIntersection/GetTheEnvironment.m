@@ -7,5 +7,8 @@ function [vertices, faces, xyz] = GetTheEnvironment(MeshN)
 %     vert2 = vertices(faces(:,2),:);
 %     vert3 = vertices(faces(:,3),:);
     xyz = [x y z];
+%    trisurf(Faces,x,y,z, intersect*1.0,'FaceAlpha', 0.9)
+    figure;
+    trisurf(faces,x,y,z);
 end
 
