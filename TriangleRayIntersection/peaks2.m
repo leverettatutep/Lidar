@@ -59,7 +59,8 @@ end
     - 1/3*exp(-(x+1).^2 - y.^2);
 %     z = ones(20,20);
 %     surf(x,y,z);
-
+    zz = 20-x.^2-y.^2; %Parabola LJE
+    z = zz;
 if nargout > 1
     xz = x;
 elseif nargout == 1
