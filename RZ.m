@@ -1,7 +1,7 @@
-function R = RZ(a)
+function R = RZ(deg)
     R = eye(4);
-    c = cosd(a);
-    s = sind(a);
+    c = cosd(deg);
+    s = sind(deg);
     R(1,1) = c;
     R(2,2) = c;
     R(2,1) = s;

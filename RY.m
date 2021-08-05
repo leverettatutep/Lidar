@@ -1,7 +1,7 @@
-function R = RY(a)
+function R = RY(deg)
     R = eye(4);
-    c = cosd(a);
-    s = sind(a);
+    c = cosd(deg);
+    s = sind(deg);
     R(1,1) = c;
     R(3,3) = c;
     R(3,1) = -s;

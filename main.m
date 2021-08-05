@@ -2,21 +2,29 @@ clear all;
 close all;
 clc;
 addpath TriangleRayIntersection;
-MeshSize = 20;
-AngleOfSweep = 1;
-
-Angles = linspace(0,360-AngleOfSweep,360/AngleOfSweep);
-[Vertices, Faces, xyz] = GetTheEnvironment(MeshSize);
-
+% addpath ../../MATH/MATLAB/MatlabKinematics;
+%% Adjustable parameters
+MeshSize = 20; %The "map" is an "image" with MeshSize by MeshSize pixels
+AngleOfSweep = 1; %The lidar returns readings every AngleOfSweep degrees
 %Where is the Drone and Laser
-CorrectDroneVals = [10.1 10.1 40 0 0 0];
-CorrectDrone = TRDrone(CorrectDroneVals);
+%Map x is East, y is North, z is up
+%Drone is initially aligned with Map origin, then moved as given below 
+%CorrectDroneVals = [MeshSize/2 MeshSize/2 40 0 0 0]; %X Y Z Yaw Pitch Roll
+CorrectDroneVals = [(MeshSize/2 + .1) (MeshSize/2 + .1) 10 0 0 0]; %X Y Z Yaw Pitch Roll
+
+%% Actual code
+Angles = linspace(0,360-AngleOfSweep,360/AngleOfSweep); %Lidar angles start at 0 and go one short of 360
+[Vertices, Faces, xyz] = GetTheEnvironment(MeshSize); %The map
+CorrectDrone = TRDrone(CorrectDroneVals); 
 % FindTheHit(Vertices, Faces, Laser) %, xyz, false)
+%Lidar laser shoots out drone +z axis when angle = 0, rotates about +DroneY
 CorrectDistances = LidarSweep(Vertices, Faces, CorrectDrone, AngleOfSweep);
 figure;
 plot(Angles,CorrectDistances);
 title('Correct Distances');
-axis([0 360 0 30]);
+maxy = (floor(max(CorrectDistances)/10) + 1)*10;
+miny = (floor(min(CorrectDistances)/10)) * 10;
+axis([0 360 miny maxy]);
 
 InitialGuess = [11 8 8 1 1 1]; %x y z yaw pitch roll
 Drone = TRDrone(InitialGuess);

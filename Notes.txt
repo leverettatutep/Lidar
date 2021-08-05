@@ -1,0 +1,3 @@
+Noah - loop closure, will it cause a problem for you?
+check out ref 8
+see https://en.wikipedia.org/wiki/Autocorrelation#:~:text=Autocorrelation%2C%20also%20known%20as%20serial,the%20time%20lag%20between%20them. for convolution cross correlation and auto correlation

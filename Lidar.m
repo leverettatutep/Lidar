@@ -1,5 +1,4 @@
 clear; clc; close all;
-Change something
 %Create the function
 limits = repmat([-5 5], 2, 1);
 [X,Y] = meshgrid(linspace(limits(1,1),limits(1,2),100),...
