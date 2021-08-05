@@ -1,4 +1,5 @@
-clear;
+clear all;
+close all;
 clc;
 addpath TriangleRayIntersection;
 MeshSize = 20;
@@ -12,13 +13,18 @@ CorrectDroneVals = [10.1 10.1 10 0 0 0];
 CorrectDrone = TRDrone(CorrectDroneVals);
 % FindTheHit(Vertices, Faces, Laser) %, xyz, false)
 CorrectDistances = LidarSweep(Vertices, Faces, CorrectDrone, AngleOfSweep);
+figure;
 plot(Angles,CorrectDistances);
+title('Correct Distances');
+axis([0 360 0 30]);
 
 InitialGuess = [11 8 8 1 1 1]; %x y z yaw pitch roll
 Drone = TRDrone(InitialGuess);
 InitialDistances = LidarSweep(Vertices, Faces, Drone, AngleOfSweep);
 figure;
 plot(Angles,InitialDistances);
+title('Initial Distances');
+axis([0 360 0 30]);
 
 StuffForError = struct;
 StuffForError.Angles = Angles;
@@ -42,12 +48,16 @@ BestGuessDrone = TRDrone(BestGuess);
 BestGuessDistances = LidarSweep(Vertices, Faces, CorrectDrone, AngleOfSweep);
 figure;
 plot(Angles,BestGuessDistances);
+title('Best Guess Distances');
+axis([0 360 0 30]);
 
 BestLastTime = [10.1049   10.1508    9.9974    0.9757    0.0184    0.0092];
 BestErrorLastTime = GetError(BestLastTime,StuffForError)
 
 figure;
 plot(Angles,CorrectDistances,Angles,InitialDistances,Angles,BestGuessDistances);
+legend('Correct','Initial','Best');
+axis([0 360 0 30]);
 
 
 function theError = GetError(DroneVals, StuffForError)

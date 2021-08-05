@@ -53,13 +53,15 @@ else
     x = arg1; y = arg2;
 end
 
-%z = gauss2d(x,y,.1,0);
+%This does a gauss
  z =  3*(1-x).^2.*exp(-(x.^2) - (y+1).^2) ...
     - 10*(x/5 - x.^3 - y.^5).*exp(-x.^2-y.^2) ...
     - 1/3*exp(-(x+1).^2 - y.^2);
 %     z = ones(20,20);
 %     surf(x,y,z);
-
+%This does a parabola
+    zz = 20-x.^2-y.^2; %Parabola LJE
+    z = zz;
 if nargout > 1
     xz = x;
 elseif nargout == 1
