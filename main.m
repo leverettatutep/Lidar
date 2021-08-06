@@ -8,9 +8,13 @@ MeshSize = 20; %The "map" is an "image" with MeshSize by MeshSize pixels
 AngleOfSweep = 1; %The lidar returns readings every AngleOfSweep degrees
 %Where is the Drone and Laser
 %Map x is East, y is North, z is up
+%The drone x is 'forward', y is to the right 'wing' if the drone were a plane, z is toward the Earth through the 'belly'
+%If the yaw pitch roll is zero then the drone forward is East, right wing
+%is south and z is down. This means we need to add 180 to whatever roll we
+%specify
 %Drone is initially aligned with Map origin, then moved as given below 
-%CorrectDroneVals = [MeshSize/2 MeshSize/2 40 0 0 0]; %X Y Z Yaw Pitch Roll
 CorrectDroneVals = [(MeshSize/2 + .1) (MeshSize/2 + .1) 10 0 0 0]; %X Y Z Yaw Pitch Roll
+CorrectDroneVals = [(MeshSize/2) (MeshSize/2) 30 0 0 0]; %X Y Z Yaw Pitch Roll
 
 %% Actual code
 Angles = linspace(0,360-AngleOfSweep,360/AngleOfSweep); %Lidar angles start at 0 and go one short of 360
@@ -22,17 +26,20 @@ CorrectDistances = LidarSweep(Vertices, Faces, CorrectDrone, AngleOfSweep);
 figure;
 plot(Angles,CorrectDistances);
 title('Correct Distances');
-maxy = (floor(max(CorrectDistances)/10) + 1)*10;
-miny = (floor(min(CorrectDistances)/10)) * 10;
-axis([0 360 miny maxy]);
+maxyC = (floor(max(CorrectDistances)/10) + 1)*10;
+minyC = (floor(min(CorrectDistances)/10)) * 10;
+axis([0 360 minyC maxyC]);
 
 InitialGuess = [11 8 8 1 1 1]; %x y z yaw pitch roll
+InitialGuess = CorrectDroneVals + 1
 Drone = TRDrone(InitialGuess);
 InitialDistances = LidarSweep(Vertices, Faces, Drone, AngleOfSweep);
 figure;
 plot(Angles,InitialDistances);
 title('Initial Distances');
-axis([0 360 0 30]);
+maxyI = (floor(max(InitialDistances)/10) + 1)*10;
+minyI = (floor(min(InitialDistances)/10)) * 10;
+axis([0 360 minyI maxyI]);
 
 StuffForError = struct;
 StuffForError.Angles = Angles;
@@ -57,15 +64,19 @@ BestGuessDistances = LidarSweep(Vertices, Faces, CorrectDrone, AngleOfSweep);
 figure;
 plot(Angles,BestGuessDistances);
 title('Best Guess Distances');
-axis([0 360 0 30]);
+maxyB = (floor(max(BestGuessDistances)/10) + 1)*10;
+minyB = (floor(min(BestGuessDistances)/10)) * 10;
+axis([0 360 minyB maxyB]);
 
-BestLastTime = [10.1049   10.1508    9.9974    0.9757    0.0184    0.0092];
-BestErrorLastTime = GetError(BestLastTime,StuffForError)
+% BestLastTime = [10.1049   10.1508    9.9974    0.9757    0.0184    0.0092];
+% BestErrorLastTime = GetError(BestLastTime,StuffForError)
 
 figure;
-plot(Angles,CorrectDistances,Angles,InitialDistances,Angles,BestGuessDistances);
+plot(Angles,CorrectDistances,'-+',Angles,InitialDistances,Angles,BestGuessDistances,'-o');
 legend('Correct','Initial','Best');
-axis([0 360 0 30]);
+miny = min([minyC minyI minyB]);
+maxy = max([maxyC maxyI maxyB]);
+axis([0 360 miny maxy]);
 
 
 function theError = GetError(DroneVals, StuffForError)

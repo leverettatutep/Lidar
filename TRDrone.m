@@ -1,10 +1,10 @@
-function Drone = TRDrone(pose)
-    x = pose(1);
-    y = pose(2);
-    z = pose(3);
-    yaw = pose(4);
-    pitch = pose(5);
-    roll = pose(6);
+function Drone = TRDrone(poseD)
+    x = poseD(1);
+    y = poseD(2);
+    z = poseD(3);
+    yaw = poseD(4);
+    pitch = poseD(5);
+    roll = poseD(6)+180; %The 180 flips it so drone z points down.
     R = RZ(yaw) * RY(pitch) * RX(roll);
     Drone = eye(4);
     Drone(1,4) = x;
